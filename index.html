@@ -12,76 +12,14 @@
     <meta property="og:url" content="https://www.cycloclubbohars.org/">
     <meta property="og:title" content="Cyclo Club de Bohars - Cyclotourisme en Finistère">
     <meta property="og:description" content="Découvrez les plus beaux circuits du Finistère à vélo avec le Cyclo Club de Bohars">
-    <meta property="og:image" content="/images/og-image.jpg">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.cycloclubbohars.org/">
-    <meta property="twitter:title" content="Cyclo Club de Bohars - Cyclotourisme en Finistère">
-    <meta property="twitter:description" content="Découvrez les plus beaux circuits du Finistère à vélo avec le Cyclo Club de Bohars">
-    <meta property="twitter:image" content="/images/og-image.jpg">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/images/logo-ccb.svg" as="image">
-    
-    <!-- DNS Prefetch pour les services externes -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//api.openweathermap.org">
+    <!-- Favicon simple -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴‍♂️</text></svg>">
 
     <title>Cyclo Club de Bohars - Cyclotourisme en Finistère</title>
 
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SportsClub",
-        "name": "Cyclo Club de Bohars",
-        "alternateName": "CCB",
-        "url": "https://www.cycloclubbohars.org",
-        "logo": "https://www.cycloclubbohars.org/images/logo-ccb.svg",
-        "description": "Club de cyclotourisme fondé en 1985, organisant des sorties régulières pour découvrir les magnifiques paysages du Finistère.",
-        "foundingDate": "1985",
-        "sport": "Cycling",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Mairie de Bohars",
-            "addressLocality": "Bohars",
-            "postalCode": "29820",
-            "addressCountry": "FR"
-        },
-        "email": "contact@cycloclubbohars.org",
-        "memberOf": {
-            "@type": "Organization",
-            "name": "Fédération Française de Cyclotourisme"
-        },
-        "events": [
-            {
-                "@type": "Event",
-                "name": "Sortie hebdomadaire du samedi",
-                "startDate": "2025-07-26T13:30:00+02:00",
-                "location": {
-                    "@type": "Place",
-                    "name": "Mairie de Bohars",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Bohars",
-                        "postalCode": "29820",
-                        "addressCountry": "FR"
-                    }
-                }
-            }
-        ]
-    }
-    </script>
-
-    <!-- Styles CSS critiques inline (optionnel pour de meilleures performances) -->
+    <!-- Styles CSS critiques inline -->
     <style>
-        /* CSS critique pour éviter le FOUC */
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -119,12 +57,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        .loading-text {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        /* Masquer le contenu initial */
         #app {
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -145,129 +77,28 @@
     <!-- Contenu principal de l'application -->
     <div id="app"></div>
 
-    <!-- Scripts pour les fonctionnalités avancées -->
     <script>
-        // Configuration globale
-        window.CCB_CONFIG = {
-            version: '1.0.0',
-            buildDate: '2025-07-27',
-            environment: 'production', // ou 'development'
-            features: {
-                nextcloudSync: true,
-                weatherWidget: true,
-                animations: true,
-                analytics: false // Respecter le RGPD
-            }
-        };
-
         // Gestion de l'écran de chargement
-        document.addEventListener('ccbSiteLoaded', function(e) {
+        window.addEventListener('load', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const app = document.getElementById('app');
             
-            // Masquer l'écran de chargement avec animation
-            loadingScreen.style.opacity = '0';
             setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                app.classList.add('loaded');
-            }, 500);
-            
-            console.log('🎉 Site CCB entièrement chargé:', e.detail);
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    app.classList.add('loaded');
+                }, 500);
+            }, 1000); // Attendre 1 seconde pour l'effet
         });
 
         // Gestion des erreurs globales
         window.addEventListener('error', function(e) {
-            console.error('Erreur globale:', e.error);
-            
-            // En cas d'erreur critique, afficher un message
-            if (!document.querySelector('.error-notification')) {
-                const notification = document.createElement('div');
-                notification.className = 'error-notification';
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: #F44336;
-                    color: white;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    z-index: 10000;
-                    max-width: 300px;
-                `;
-                notification.innerHTML = `
-                    <strong>⚠️ Erreur</strong><br>
-                    Une erreur est survenue. Rechargez la page si le problème persiste.
-                `;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => notification.remove(), 5000);
-            }
+            console.error('Erreur:', e.error);
         });
-
-        // Service Worker pour le cache (optionnel)
-        if ('serviceWorker' in navigator && window.CCB_CONFIG.environment === 'production') {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // Analytics respectueux de la vie privée (si activé)
-        if (window.CCB_CONFIG.features.analytics) {
-            // Implémenter un système d'analytics respectueux du RGPD
-            // Exemple avec une solution auto-hébergée
-        }
-
-        // Détection des capacités du navigateur
-        window.CCB_CAPABILITIES = {
-            webGL: !!window.WebGLRenderingContext,
-            serviceWorker: 'serviceWorker' in navigator,
-            webShare: 'share' in navigator,
-            clipboard: 'clipboard' in navigator,
-            geolocation: 'geolocation' in navigator,
-            notification: 'Notification' in window,
-            storage: typeof(Storage) !== 'undefined'
-        };
-
-        // Utilitaires globaux
-        window.CCB_UTILS = {
-            // Fonction pour débugger
-            debug: function(message, data) {
-                if (window.CCB_CONFIG.environment === 'development') {
-                    console.log('🚴‍♂️ CCB Debug:', message, data);
-                }
-            },
-            
-            // Fonction pour les notifications
-            notify: function(message, type = 'info') {
-                if (window.ccbSite && window.ccbSite.showNotification) {
-                    window.ccbSite.showNotification(message, type);
-                }
-            },
-            
-            // Fonction pour le formatage des dates
-            formatDate: function(date) {
-                return new Date(date).toLocaleDateString('fr-FR', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            }
-        };
-
-        // Protection contre les erreurs de console en production
-        if (window.CCB_CONFIG.environment === 'production') {
-            console.log = console.warn = console.error = function() {};
-        }
     </script>
 
-    <!-- Module principal (Vite s'occupe du bundling) -->
+    <!-- Module principal -->
     <script type="module" src="/src/main.js"></script>
 
     <!-- Fallback pour les navigateurs sans support des modules ES6 -->
