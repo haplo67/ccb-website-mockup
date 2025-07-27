@@ -323,6 +323,6 @@ vercel rollback URL
 
 ---
 
-🎉 **Félicitations !** Votre site CCB est maintenant en ligne.
+🎉 **Félicitations !** Votre site CCB est maintenant en ligne !
 
 *N'oubliez pas de partager l'URL avec tous les membres du club !*
