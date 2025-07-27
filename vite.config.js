@@ -70,5 +70,5 @@ export default defineConfig({
   },
   
   // Configuration pour GitHub Pages (si déployé là)
-  base: process.env.NODE_ENV === 'production' ? '/ccb-website/' : '/'
+  base: '/ccb-website/'
 })
