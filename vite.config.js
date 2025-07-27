@@ -9,7 +9,7 @@ export default defineConfig({
   },
   
   // Configuration pour GitHub Pages
-  base: process.env.NODE_ENV === '/ccb-website-mockup/',
+  base: '/ccb-website-mockup/',
   
   // Configuration de la construction
   build: {
