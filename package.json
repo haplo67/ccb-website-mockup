@@ -1,0 +1,82 @@
+{
+  "name": "ccb-website",
+  "version": "1.0.0",
+  "description": "Site moderne du Cyclo Club de Bohars avec intégration Nextcloud",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext js --fix",
+    "format": "prettier --write src/**/*.{js,scss,css}",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "clean": "rm -rf dist node_modules",
+    "deploy": "npm run build && npm run deploy:netlify",
+    "deploy:netlify": "netlify deploy --prod --dir dist",
+    "deploy:vercel": "vercel --prod",
+    "analyze": "vite-bundle-analyzer",
+    "lighthouse": "lighthouse http://localhost:4173 --output json --output html --output-path ./lighthouse-report",
+    "serve": "npm run build && npm run preview"
+  },
+  "keywords": [
+    "vélo",
+    "cyclisme",
+    "cyclotourisme",
+    "bohars",
+    "finistère",
+    "bretagne",
+    "club",
+    "nextcloud"
+  ],
+  "author": "Cyclo Club de Bohars",
+  "license": "MIT",
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.8",
+    "@vitejs/plugin-legacy": "^4.1.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "lighthouse": "^11.4.0",
+    "netlify-cli": "^17.10.1",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "sass": "^1.69.6",
+    "terser": "^5.26.0",
+    "vite": "^5.0.8",
+    "vite-bundle-analyzer": "^0.7.0",
+    "vite-plugin-pwa": "^0.17.4",
+    "vitest": "^1.0.4",
+    "workbox-window": "^7.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cycloclubbohars/website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cycloclubbohars/website/issues",
+    "email": "contact@cycloclubbohars.org"
+  },
+  "homepage": "https://www.cycloclubbohars.org",
+  "private": false,
+  "funding": {
+    "type": "individual",
+    "url": "https://www.cycloclubbohars.org/adhesion"
+  }
+}

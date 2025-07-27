@@ -1,0 +1,68 @@
+// src/styles/components/_buttons.scss
+.btn {
+  display: inline-block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-decoration: none;
+  border-radius: var(--border-radius-xl);
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  line-height: 1;
+
+  &:focus {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background: var(--color-secondary);
+  color: var(--color-white);
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+
+  &:hover {
+    background: var(--color-secondary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+
+  &:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    transform: translateY(-2px);
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-white);
+  border: 2px solid var(--color-white);
+
+  &:hover {
+    background: var(--color-white);
+    color: var(--color-primary);
+  }
+}
+
+.btn-small {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+
+.btn-large {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}

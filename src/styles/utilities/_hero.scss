@@ -1,0 +1,82 @@
+// src/styles/components/_hero.scss
+.hero {
+  background: linear-gradient(rgba(44, 85, 48, 0.8), rgba(74, 124, 89, 0.8)), 
+              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a7c59" width="1200" height="600"/><path fill="%232c5530" d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z"/></svg>');
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-white);
+  position: relative;
+
+  @media (max-width: $breakpoint-md) {
+    height: 60vh;
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+
+  // Overlay pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="rgba(255,255,255,0.1)" cx="50" cy="50" r="2"/></svg>') repeat;
+    background-size: 50px 50px;
+    opacity: 0.3;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+
+  h2 {
+    font-size: var(--font-size-hero);
+    margin-bottom: var(--spacing-sm);
+    animation: fadeInUp 1s ease-out;
+
+    @media (max-width: $breakpoint-md) {
+      font-size: 2.5rem;
+    }
+  }
+
+  p {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
+    animation: fadeInUp 1s ease-out 0.3s both;
+    opacity: 0.9;
+  }
+
+  .cta-button {
+    animation: fadeInUp 1s ease-out 0.6s both;
+  }
+}
+
+// Animation de scroll vers le bas
+.scroll-indicator {
+  position: absolute;
+  bottom: var(--spacing-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  opacity: 0.8;
+  animation: bounce 2s infinite;
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    40% {
+      transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+}

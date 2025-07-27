@@ -1,0 +1,44 @@
+// src/styles/main.scss
+
+// Base styles
+@import 'base/variables';
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/animations';
+
+// Utilities
+@import 'utilities/grid';
+@import 'utilities/spacing';
+@import 'utilities/colors';
+
+// Components
+@import 'components/buttons';
+@import 'components/cards';
+@import 'components/header';
+@import 'components/hero';
+@import 'components/footer';
+
+// Section spécifique pour la page d'accueil
+.week-info {
+  @extend .card-highlight;
+
+  .week-header {
+    @extend .flex;
+    @extend .align-center;
+    @extend .flex-gap;
+    margin-bottom: var(--spacing-md);
+
+    .week-icon {
+      background: var(--color-secondary);
+      color: var(--color-white);
+      width: 50px;
+      height: 50px;
+      border-radius: var(--border-radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-xl);
+      flex-shrink: 0;
+    }
+  }
+}
