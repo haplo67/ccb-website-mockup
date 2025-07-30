@@ -3,116 +3,1182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cyclo Club de Bohars - Découvrez les plus beaux circuits du Finistère à vélo. Club de cyclotourisme fondé en 1985.">
-    <meta name="keywords" content="vélo, cyclisme, cyclotourisme, Bohars, Finistère, Bretagne, club, circuits, randonnée">
-    <meta name="author" content="Cyclo Club de Bohars">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.cycloclubbohars.org/">
-    <meta property="og:title" content="Cyclo Club de Bohars - Cyclotourisme en Finistère">
-    <meta property="og:description" content="Découvrez les plus beaux circuits du Finistère à vélo avec le Cyclo Club de Bohars">
-
-    <!-- Favicon simple -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴‍♂️</text></svg>">
-
-    <title>Cyclo Club de Bohars - Cyclotourisme en Finistère</title>
-
-    <!-- Styles CSS critiques inline -->
+    <title>Cyclo Club de Bohars</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header compact */
+        .header {
             background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            padding: 3px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .login-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Layout principal compact */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr 250px;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Sidebar gauche - Circuits */
+        .sidebar-left {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            height: fit-content;
+        }
+
+        .sidebar-left h3 {
+            color: #2c5530;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.3rem;
+        }
+
+        .circuit-links {
+            list-style: none;
+        }
+
+        .circuit-category {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-header {
+            color: #2c5530;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+
+        .category-header:hover {
+            background: #e9ecef;
+            border-color: #ff6b35;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .category-arrow {
+            font-size: 0.8rem;
+            color: #666;
+            transition: transform 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .category-expanded .category-arrow {
+            transform: rotate(90deg);
+        }
+
+        .subcategory-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .category-expanded .subcategory-list {
+            max-height: 300px;
+        }
+
+        .subcategory-list li {
+            margin: 0;
+        }
+
+        .subcategory-list a {
+            color: #4a7c59;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+            display: block;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .subcategory-list a:hover {
+            background: #f0f8f0;
+            border-left-color: #ff6b35;
+            color: #2c5530;
+        }
+
+        .subcategory-list li:last-child a {
+            border-bottom: none;
+        }
+
+        .circuit-count {
+            font-size: 0.75rem;
+            color: #666;
+            background: #e9ecef;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            font-weight: normal;
+        }
+
+        /* Contenu central */
+        .main-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        /* Info semaine - compact */
+        .week-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #ff6b35;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .week-icon {
+            background: #ff6b35;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
-            color: white;
-            flex-direction: column;
+            font-size: 1.2rem;
         }
-        
-        .loading-spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+
+        .week-header h4 {
+            color: #2c5530;
+            font-size: 1.1rem;
+        }
+
+        .week-details {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .week-details p {
+            margin-bottom: 0.3rem;
+        }
+
+        .weather-compact {
+            background: white;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* Agenda compact */
+        .agenda-section h3 {
+            color: #2c5530;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.3rem;
+        }
+
+        .events-list {
+            space: 0.8rem;
+        }
+
+        .event-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid #2c5530;
+        }
+
+        .event-date {
+            background: #2c5530;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: #2c5530;
+            margin-bottom: 0.3rem;
+        }
+
+        .event-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Sidebar droite - Infos club */
+        .sidebar-right {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            height: fit-content;
+        }
+
+        .sidebar-right h3 {
+            color: #2c5530;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.3rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.2rem;
+        }
+
+        .info-section h4 {
+            color: #2c5530;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-section p, .info-section li {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .info-section li::before {
+            content: "• ";
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        /* Zone membre connecté */
+        .member-zone {
+            background: #e8f5e8;
+            border: 1px solid #c3e6c3;
+            border-radius: 6px;
+            padding: 0.8rem;
             margin-bottom: 1rem;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .member-zone.hidden {
+            display: none;
         }
-        
-        #app {
-            opacity: 0;
-            transition: opacity 0.5s ease;
+
+        .member-info {
+            font-size: 0.9rem;
+            color: #2c5530;
         }
-        
-        #app.loaded {
-            opacity: 1;
+
+        .member-links {
+            margin-top: 0.5rem;
+        }
+
+        .member-links a {
+            color: #2c5530;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            padding: 0.2rem 0;
+        }
+
+        .member-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer compact */
+        .footer {
+            background: #2c5530;
+            color: white;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .footer-section h4 {
+            color: #ff6b35;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Modal de login */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .login-modal {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .login-modal h3 {
+            color: #2c5530;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: #2c5530;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .login-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e55a2b;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #2c5530;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
         }
     </style>
 </head>
 <body>
-    <!-- Écran de chargement -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Chargement du Cyclo Club de Bohars...</div>
+    <!-- Header compact -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">🚴‍♂️</div>
+                <h1>Cyclo Club de Bohars</h1>
+            </div>
+            <div class="user-menu">
+                <span id="user-status">Visiteur</span>
+                <button class="login-btn" onclick="showLogin()">Se connecter</button>
+                <button class="login-btn" onclick="logout()" id="logout-btn" style="display: none;">Déconnexion</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout principal -->
+    <div class="container">
+        <!-- Sidebar gauche - Circuits -->
+        <aside class="sidebar-left">
+            <h3>🗺️ Nos circuits</h3>
+            <ul class="circuit-links">
+                <!-- Circuit de la semaine -->
+                <li class="circuit-category">
+                    <div class="category-header" onclick="toggleCategory('semaine')">
+                        <div class="category-title">
+                            <span>Circuit de la semaine</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="semaine-list">
+                        <li><a href="#" onclick="showCircuit('semaine', 'actuel')">Circuit actuel</a></li>
+                        <li><a href="#" onclick="showCircuit('semaine', 'prochain')">Circuit prochain</a></li>
+                        <li><a href="#" onclick="showCircuit('semaine', 'archives')">Archives semaines</a></li>
+                    </ul>
+                </li>
+
+                <!-- Circuits à la demi-journée -->
+                <li class="circuit-category">
+                    <div class="category-header" onclick="toggleCategory('demi-journee')">
+                        <div class="category-title">
+                            <span>Circuits à la demi-journée</span>
+                            <span class="circuit-count">42</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="demi-journee-list">
+                        <li><a href="#" onclick="showCircuit('demi-journee', 'niveau-a')">Niveau A (18 circuits)</a></li>
+                        <li><a href="#" onclick="showCircuit('demi-journee', 'niveau-b')">Niveau B (24 circuits)</a></li>
+                        <li><a href="#" onclick="showCircuit('demi-journee', 'tous')">Tous les circuits</a></li>
+                        <li><a href="#" onclick="showCircuit('demi-journee', 'nouveaux')">Nouveaux circuits</a></li>
+                    </ul>
+                </li>
+
+                <!-- Circuits à la journée -->
+                <li class="circuit-category">
+                    <div class="category-header" onclick="toggleCategory('journee')">
+                        <div class="category-title">
+                            <span>Circuits à la journée</span>
+                            <span class="circuit-count">68</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="journee-list">
+                        <li><a href="#" onclick="showCircuit('journee', 'niveau-b')">Niveau B (32 circuits)</a></li>
+                        <li><a href="#" onclick="showCircuit('journee', 'niveau-c')">Niveau C (36 circuits)</a></li>
+                        <li><a href="#" onclick="showCircuit('journee', 'tous')">Tous les circuits</a></li>
+                        <li><a href="#" onclick="showCircuit('journee', 'favoris')">Circuits favoris</a></li>
+                    </ul>
+                </li>
+
+                <!-- Circuits extérieurs -->
+                <li class="circuit-category">
+                    <div class="category-header" onclick="toggleCategory('exterieurs')">
+                        <div class="category-title">
+                            <span>Circuits extérieurs</span>
+                            <span class="circuit-count">31</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="exterieurs-list">
+                        <li><a href="#" onclick="showCircuit('exterieurs', 'finistere-nord')">Finistère Nord (12)</a></li>
+                        <li><a href="#" onclick="showCircuit('exterieurs', 'finistere-sud')">Finistère Sud (8)</a></li>
+                        <li><a href="#" onclick="showCircuit('exterieurs', 'cotes-armor')">Côtes d'Armor (7)</a></li>
+                        <li><a href="#" onclick="showCircuit('exterieurs', 'morbihan')">Morbihan (4)</a></li>
+                        <li><a href="#" onclick="showCircuit('exterieurs', 'tous')">Tous extérieurs</a></li>
+                    </ul>
+                </li>
+
+                <!-- Archives -->
+                <li class="circuit-category">
+                    <div class="category-header" onclick="toggleCategory('archives')">
+                        <div class="category-title">
+                            <span>Archives</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="archives-list">
+                        <li><a href="#" onclick="showCircuit('archives', '2024')">Circuits 2024</a></li>
+                        <li><a href="#" onclick="showCircuit('archives', '2023')">Circuits 2023</a></li>
+                        <li><a href="#" onclick="showCircuit('archives', 'anciens')">Anciens circuits</a></li>
+                        <li><a href="#" onclick="showCircuit('archives', 'supprimés')">Circuits supprimés</a></li>
+                    </ul>
+                </li>
+
+                <!-- Outils -->
+                <li class="circuit-category" style="margin-top: 1rem; border-top: 1px solid #e9ecef; padding-top: 0.5rem;">
+                    <div class="category-header" onclick="toggleCategory('outils')">
+                        <div class="category-title">
+                            <span>🛠️ Outils</span>
+                        </div>
+                        <span class="category-arrow">▶</span>
+                    </div>
+                    <ul class="subcategory-list" id="outils-list">
+                        <li><a href="#" onclick="showTool('recherche')">🔍 Rechercher un circuit</a></li>
+                        <li><a href="#" onclick="showTool('carte')">🗺️ Carte interactive</a></li>
+                        <li><a href="#" onclick="showTool('gpx')">📥 Télécharger tous les GPX</a></li>
+                        <li><a href="#" onclick="showTool('stats')">📊 Statistiques</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div style="margin-top: 1.5rem;">
+                <h3>📊 Statistiques</h3>
+                <div style="font-size: 0.85rem; color: #666;">
+                    <p><strong>85</strong> membres actifs</p>
+                    <p><strong>141</strong> circuits disponibles</p>
+                    <p><strong>2,450</strong> km cette année</p>
+                    <p><strong>15</strong> nouveaux cette année</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu central -->
+        <main class="main-content">
+            <!-- Zone membre connecté -->
+            <div class="member-zone hidden" id="member-zone">
+                <div class="member-info">
+                    <strong>🎉 Bienvenue, <span id="member-name">Membre</span> !</strong>
+                </div>
+                <div class="member-links">
+                    <a href="#" onclick="showTrombinoscope()">👥 Trombinoscope</a>
+                    <a href="#" onclick="showDocuments()">📄 Documents membres</a>
+                    <a href="#" onclick="showVideos()">🎥 Vidéos</a>
+                    <a href="#" onclick="showSondages()">📊 Sondages</a>
+                </div>
+            </div>
+
+            <!-- Info de la semaine -->
+            <div class="week-info">
+                <div class="week-header">
+                    <div class="week-icon">📅</div>
+                    <div>
+                        <h4>Sortie du samedi 30 novembre 2024</h4>
+                        <p style="color: #666; font-size: 0.9rem;">Circuit "Les Abers" - 65km - Niveau B</p>
+                    </div>
+                </div>
+                
+                <div class="week-details">
+                    <p><strong>Rendez-vous :</strong> 13h30 devant la mairie de Bohars</p>
+                    <p><strong>Responsable :</strong> Jean Broudin</p>
+                    <p><strong>Participants inscrits :</strong> 12 cyclistes</p>
+                </div>
+                
+                <div class="weather-compact">
+                    <div>
+                        <strong>Météo prévue</strong><br>
+                        <span style="font-size: 0.85rem;">Partiellement nuageux, 12°C</span>
+                    </div>
+                    <div style="font-size: 1.5rem;">⛅</div>
+                </div>
+            </div>
+
+            <!-- Agenda -->
+            <div class="agenda-section">
+                <h3>📅 Prochains événements</h3>
+                <div class="events-list">
+                    <div class="event-item">
+                        <div class="event-date">7 décembre 2024</div>
+                        <div class="event-title">Sortie découverte débutants</div>
+                        <div class="event-description">Circuit facile de 30km autour de Bohars. Inscription recommandée.</div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div class="event-date">14 décembre 2024</div>
+                        <div class="event-title">Randonnée "Tour de Brest"</div>
+                        <div class="event-description">Grande randonnée de 85km avec passage par les plus beaux points de vue.</div>
+                    </div>
+                    
+                    <div class="event-item">
+                        <div class="event-date">21 décembre 2024</div>
+                        <div class="event-title">Repas de fin d'année</div>
+                        <div class="event-description">Repas convivial au restaurant "Les Embruns" à Plougonvelin.</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar droite - Infos -->
+        <aside class="sidebar-right">
+            <h3>ℹ️ Informations</h3>
+            
+            <div class="info-section">
+                <h4>Horaires des sorties</h4>
+                <p><strong>Samedi :</strong> 13h30 (hiver) / 14h00 (été)</p>
+                <p><strong>Mercredi :</strong> 13h30 (optionnel)</p>
+                <p><strong>RDV :</strong> Mairie de Bohars</p>
+            </div>
+
+            <div class="info-section">
+                <h4>Nos 3 niveaux</h4>
+                <ul>
+                    <li><strong>Niveau A :</strong> 40-50km (débutants)</li>
+                    <li><strong>Niveau B :</strong> 60-70km (confirmés)</li>
+                    <li><strong>Niveau C :</strong> 80km+ (sportifs)</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4>Contact</h4>
+                <p>📧 contact@cycloclubbohars.org</p>
+                <p>📍 Mairie de Bohars<br>29820 Bohars</p>
+                <p>💰 Cotisation : 45€/an</p>
+            </div>
+
+            <div class="info-section">
+                <h4>Documents utiles</h4>
+                <ul style="font-size: 0.8rem;">
+                    <li><a href="#" style="color: #2c5530;">Règlement intérieur</a></li>
+                    <li><a href="#" style="color: #2c5530;">Formulaire d'inscription</a></li>
+                    <li><a href="#" style="color: #2c5530;">Certificat médical</a></li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
-    <!-- Contenu principal de l'application -->
-    <div id="app"></div>
+    <!-- Footer compact -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <p><a href="#">Accueil</a></p>
+                <p><a href="#">Circuits</a></p>
+                <p><a href="#">Agenda</a></p>
+                <p><a href="#">Contact</a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Le Club</h4>
+                <p>Fondé en 1985</p>
+                <p>85 membres actifs</p>
+                <p>Tous niveaux bienvenus</p>
+            </div>
+            <div class="footer-section">
+                <h4>Partenaires</h4>
+                <p>Fédération Française de Cyclotourisme</p>
+                <p>Mairie de Bohars</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #4a7c59; font-size: 0.8rem; opacity: 0.8;">
+            © 2024 Cyclo Club de Bohars - Site modernisé avec intégration Nextcloud
+        </div>
+    </footer>
+
+    <!-- Modal de login -->
+    <div class="modal-overlay" id="login-modal">
+        <div class="login-modal">
+            <h3>🔐 Connexion membres CCB</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur Nextcloud :</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="login-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideLogin()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </div>
+            </form>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: #666; text-align: center;">
+                Utilisez vos identifiants Nextcloud du club
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Gestion de l'écran de chargement
-        window.addEventListener('load', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const app = document.getElementById('app');
+        // État de connexion
+        let isLoggedIn = false;
+        let currentUser = null;
+
+        // Gestion du login
+        function showLogin() {
+            document.getElementById('login-modal').classList.add('show');
+        }
+
+        function hideLogin() {
+            document.getElementById('login-modal').classList.remove('show');
+        }
+
+        // Simulation de l'authentification Nextcloud
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simuler un appel à l'API Nextcloud
+            console.log('🔐 Tentative de connexion Nextcloud:', username);
+            
+            // Simulation - en réalité, cela ferait un appel vers l'API Nextcloud
+            setTimeout(() => {
+                if (username && password) {
+                    // Succès simulé
+                    isLoggedIn = true;
+                    currentUser = {
+                        name: username,
+                        displayName: username.charAt(0).toUpperCase() + username.slice(1)
+                    };
+                    
+                    updateUI();
+                    hideLogin();
+                    
+                    // Afficher un message de succès
+                    showNotification('✅ Connexion réussie ! Bienvenue ' + currentUser.displayName, 'success');
+                } else {
+                    showNotification('❌ Identifiants incorrects', 'error');
+                }
+            }, 1000);
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            updateUI();
+            showNotification('👋 Déconnexion réussie', 'info');
+        }
+
+        function updateUI() {
+            const userStatus = document.getElementById('user-status');
+            const loginBtn = document.querySelector('.login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const memberZone = document.getElementById('member-zone');
+            const memberName = document.getElementById('member-name');
+
+            if (isLoggedIn && currentUser) {
+                userStatus.textContent = currentUser.displayName;
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                memberZone.classList.remove('hidden');
+                memberName.textContent = currentUser.displayName;
+            } else {
+                userStatus.textContent = 'Visiteur';
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                memberZone.classList.add('hidden');
+            }
+        }
+
+        // Navigation vers les circuits avec sous-menus
+        function toggleCategory(categoryId) {
+            const category = document.querySelector(`#${categoryId}-list`).parentElement;
+            const isExpanded = category.classList.contains('category-expanded');
+            
+            // Fermer toutes les autres catégories
+            document.querySelectorAll('.circuit-category').forEach(cat => {
+                cat.classList.remove('category-expanded');
+            });
+            
+            // Ouvrir/fermer la catégorie cliquée
+            if (!isExpanded) {
+                category.classList.add('category-expanded');
+            }
+        }
+
+        function showCircuit(category, subcategory) {
+            const messages = {
+                'semaine': {
+                    'actuel': 'Circuit actuel : "Les Abers" - 65km - Niveau B',
+                    'prochain': 'Circuit prochain : "Boucle de Plougastel" - 42km - Niveau A',
+                    'archives': 'Archives des circuits de la semaine (52 circuits cette année)'
+                },
+                'demi-journee': {
+                    'niveau-a': 'Circuits demi-journée Niveau A (18 circuits de 30-45km)',
+                    'niveau-b': 'Circuits demi-journée Niveau B (24 circuits de 45-60km)',
+                    'tous': 'Tous les circuits à la demi-journée (42 circuits)',
+                    'nouveaux': 'Nouveaux circuits 2024 (5 circuits)'
+                },
+                'journee': {
+                    'niveau-b': 'Circuits journée Niveau B (32 circuits de 60-80km)',
+                    'niveau-c': 'Circuits journée Niveau C (36 circuits de 80km+)',
+                    'tous': 'Tous les circuits à la journée (68 circuits)',
+                    'favoris': 'Circuits favoris des membres (12 circuits)'
+                },
+                'exterieurs': {
+                    'finistere-nord': 'Circuits Finistère Nord (12 circuits)',
+                    'finistere-sud': 'Circuits Finistère Sud (8 circuits)',
+                    'cotes-armor': 'Circuits Côtes d\'Armor (7 circuits)',
+                    'morbihan': 'Circuits Morbihan (4 circuits)',
+                    'tous': 'Tous les circuits extérieurs (31 circuits)'
+                },
+                'archives': {
+                    '2024': 'Archives 2024 (47 circuits utilisés cette année)',
+                    '2023': 'Archives 2023 (52 circuits)',
+                    'anciens': 'Anciens circuits (156 circuits historiques)',
+                    'supprimés': 'Circuits supprimés (23 circuits non praticables)'
+                }
+            };
+            
+            const message = messages[category]?.[subcategory] || `Circuit ${category} - ${subcategory}`;
+            showNotification('🗺️ ' + message, 'info');
+            console.log('Navigation vers circuit:', category, subcategory);
+            
+            // Ici on pourrait charger le contenu spécifique dans la zone principale
+            loadCircuitContent(category, subcategory);
+        }
+
+        function showTool(tool) {
+            const tools = {
+                'recherche': 'Ouverture de la recherche de circuits...',
+                'carte': 'Chargement de la carte interactive...',
+                'gpx': 'Préparation du téléchargement de tous les fichiers GPX...',
+                'stats': 'Affichage des statistiques détaillées...'
+            };
+            
+            showNotification('🛠️ ' + tools[tool], 'info');
+            console.log('Outil sélectionné:', tool);
+        }
+
+        function loadCircuitContent(category, subcategory) {
+            // Simuler le chargement du contenu dans la zone principale
+            const mainContent = document.querySelector('.main-content');
+            
+            // Ajouter une section de circuits après l'agenda
+            let circuitSection = document.querySelector('.circuit-content');
+            if (!circuitSection) {
+                circuitSection = document.createElement('div');
+                circuitSection.className = 'circuit-content';
+                circuitSection.style.cssText = `
+                    margin-top: 2rem;
+                    padding-top: 1.5rem;
+                    border-top: 2px solid #e9ecef;
+                `;
+                mainContent.appendChild(circuitSection);
+            }
+            
+            // Exemple de contenu pour les circuits
+            const circuitData = {
+                'demi-journee': {
+                    'niveau-a': [
+                        { name: 'Boucle du Cranou', distance: '32km', difficulty: 'A', description: 'Circuit facile en forêt' },
+                        { name: 'Tour de Bohars', distance: '28km', difficulty: 'A', description: 'Découverte locale' },
+                        { name: 'Vallée de l\'Elorn', distance: '35km', difficulty: 'A', description: 'Paysages bucoliques' }
+                    ]
+                },
+                'journee': {
+                    'niveau-b': [
+                        { name: 'Tour de la Rade', distance: '72km', difficulty: 'B', description: 'Magnifique tour de la rade de Brest' },
+                        { name: 'Circuit des Abers', distance: '65km', difficulty: 'B', description: 'Côte sauvage et abers' }
+                    ]
+                }
+            };
+            
+            const circuits = circuitData[category]?.[subcategory] || [];
+            
+            if (circuits.length > 0) {
+                circuitSection.innerHTML = `
+                    <h3 style="color: #2c5530; margin-bottom: 1rem;">
+                        🗺️ ${category.charAt(0).toUpperCase() + category.slice(1)} - ${subcategory.replace('-', ' ')}
+                    </h3>
+                    <div style="display: grid; gap: 1rem;">
+                        ${circuits.map(circuit => `
+                            <div style="
+                                background: #f8f9fa;
+                                border-radius: 8px;
+                                padding: 1rem;
+                                border-left: 4px solid #ff6b35;
+                                display: grid;
+                                grid-template-columns: auto 1fr auto auto;
+                                gap: 1rem;
+                                align-items: center;
+                            ">
+                                <div style="
+                                    background: #2c5530;
+                                    color: white;
+                                    padding: 0.3rem 0.6rem;
+                                    border-radius: 4px;
+                                    font-weight: 600;
+                                    font-size: 0.8rem;
+                                ">${circuit.difficulty}</div>
+                                <div>
+                                    <div style="font-weight: 600; color: #2c5530; margin-bottom: 0.2rem;">
+                                        ${circuit.name}
+                                    </div>
+                                    <div style="font-size: 0.85rem; color: #666;">
+                                        ${circuit.description}
+                                    </div>
+                                </div>
+                                <div style="font-weight: 600; color: #ff6b35;">
+                                    ${circuit.distance}
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button style="
+                                        background: #2c5530;
+                                        color: white;
+                                        border: none;
+                                        padding: 0.3rem 0.6rem;
+                                        border-radius: 4px;
+                                        font-size: 0.8rem;
+                                        cursor: pointer;
+                                    ">🗺️ Voir</button>
+                                    <button style="
+                                        background: #ff6b35;
+                                        color: white;
+                                        border: none;
+                                        padding: 0.3rem 0.6rem;
+                                        border-radius: 4px;
+                                        font-size: 0.8rem;
+                                        cursor: pointer;
+                                    ">📥 GPX</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                circuitSection.innerHTML = `
+                    <h3 style="color: #2c5530; margin-bottom: 1rem;">
+                        🗺️ ${category.charAt(0).toUpperCase() + category.slice(1)} - ${subcategory.replace('-', ' ')}
+                    </h3>
+                    <div style="
+                        background: #f8f9fa;
+                        border-radius: 8px;
+                        padding: 2rem;
+                        text-align: center;
+                        color: #666;
+                    ">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🗺️</div>
+                        <p>Contenu en cours de chargement depuis Nextcloud...</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+                            Les circuits seront affichés ici avec cartes interactives et fichiers GPX.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // Navigation vers les circuits (fonction existante simplifiée)
+        function showCircuits(type) {
+            // Cette fonction est maintenant gérée par showCircuit
+            console.log('Redirect to showCircuit for:', type);
+        }
+
+        // Fonctions membres
+        function showTrombinoscope() {
+            if (!isLoggedIn) {
+                showNotification('🔐 Connexion requise pour accéder au trombinoscope', 'warning');
+                showLogin();
+                return;
+            }
+            showNotification('👥 Ouverture du trombinoscope...', 'info');
+        }
+
+        function showDocuments() {
+            if (!isLoggedIn) {
+                showNotification('🔐 Connexion requise pour accéder aux documents', 'warning');
+                showLogin();
+                return;
+            }
+            showNotification('📄 Accès aux documents membres...', 'info');
+        }
+
+        function showVideos() {
+            if (!isLoggedIn) {
+                showNotification('🔐 Connexion requise pour accéder aux vidéos', 'warning');
+                showLogin();
+                return;
+            }
+            showNotification('🎥 Chargement des vidéos...', 'info');
+        }
+
+        function showSondages() {
+            if (!isLoggedIn) {
+                showNotification('🔐 Connexion requise pour accéder aux sondages', 'warning');
+                showLogin();
+                return;
+            }
+            showNotification('📊 Ouverture des sondages actifs...', 'info');
+        }
+
+        // Système de notifications
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                z-index: 10000;
+                font-size: 0.9rem;
+                max-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            const colors = {
+                'success': '#28a745',
+                'error': '#dc3545',
+                'warning': '#ffc107',
+                'info': '#17a2b8'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    app.classList.add('loaded');
-                }, 500);
-            }, 1000); // Attendre 1 seconde pour l'effet
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Fermer la modal en cliquant à l'extérieur
+        document.getElementById('login-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideLogin();
+            }
         });
 
-        // Gestion des erreurs globales
-        window.addEventListener('error', function(e) {
-            console.error('Erreur:', e.error);
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+            console.log('🚴‍♂️ Site CCB chargé - Version compacte avec authentification Nextcloud');
         });
-    </script>
 
-    <!-- Module principal -->
-    <script type="module" src="/src/main.js"></script>
-
-    <!-- Fallback pour les navigateurs sans support des modules ES6 -->
-    <script nomodule>
-        document.getElementById('loading-screen').innerHTML = `
-            <div style="text-align: center; color: white;">
-                <h2>⚠️ Navigateur non supporté</h2>
-                <p>Votre navigateur ne supporte pas les modules JavaScript modernes.</p>
-                <p>Veuillez utiliser une version récente de Chrome, Firefox, Safari ou Edge.</p>
-                <a href="mailto:contact@cycloclubbohars.org" style="color: #ff6b35;">
-                    Contactez-nous pour assistance
-                </a>
-            </div>
+        // Ajouter les styles d'animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(300px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(300px); opacity: 0; }
+            }
         `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
